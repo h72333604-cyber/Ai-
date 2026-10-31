@@ -1,0 +1,96 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    <script>
+      (function() {
+        // 1. Intercept console.error to filter out HMR WebSocket messages as per environment rules
+        var origConsoleError = console.error;
+        console.error = function() {
+          for (var i = 0; i < arguments.length; i++) {
+            var arg = arguments[i];
+            var str = (arg && (arg.message || arg.stack || String(arg))) || '';
+            if (str.indexOf('WebSocket') !== -1 || str.indexOf('closed without opened') !== -1 || (arguments[0] === '[vite]' && str.indexOf('WebSocket') !== -1)) {
+              return;
+            }
+          }
+          origConsoleError.apply(console, arguments);
+        };
+
+        // 2. Window error event suppression for HMR
+        window.addEventListener('error', function(e) {
+          if (e.message && (e.message.indexOf('WebSocket') !== -1 || e.message.indexOf('vite') !== -1 || e.message.indexOf('closed without opened') !== -1)) {
+            e.preventDefault();
+            e.stopImmediatePropagation();
+          }
+        });
+        window.addEventListener('unhandledrejection', function(e) {
+          var reason = e.reason ? (e.reason.message || String(e.reason)) : '';
+          if (reason.indexOf('WebSocket') !== -1 || reason.indexOf('vite') !== -1 || reason.indexOf('closed without opened') !== -1) {
+            e.preventDefault();
+            e.stopImmediatePropagation();
+          }
+        });
+
+        // 3. Stub Vite HMR WebSocket so @vite/client successfully connects without error
+        var OriginalWebSocket = window.WebSocket;
+        if (OriginalWebSocket) {
+          window.WebSocket = function(url, protocols) {
+            var isViteHMR = protocols === 'vite-hmr' || (Array.isArray(protocols) && protocols.indexOf('vite-hmr') !== -1) || (typeof url === 'string' && url.indexOf('vite-hmr') !== -1);
+            if (isViteHMR) {
+              var dummy = new EventTarget();
+              dummy.url = url;
+              dummy.readyState = 1; // WebSocket.OPEN
+              dummy.CONNECTING = 0;
+              dummy.OPEN = 1;
+              dummy.CLOSING = 2;
+              dummy.CLOSED = 3;
+              dummy.binaryType = 'blob';
+              dummy.bufferedAmount = 0;
+              dummy.extensions = '';
+              dummy.protocol = 'vite-hmr';
+              dummy.send = function() {};
+              dummy.close = function() {
+                dummy.readyState = 3;
+                dummy.dispatchEvent(new Event('close'));
+              };
+              setTimeout(function() {
+                dummy.dispatchEvent(new Event('open'));
+              }, 20);
+              return dummy;
+            }
+            return new OriginalWebSocket(url, protocols);
+          };
+          window.WebSocket.prototype = OriginalWebSocket.prototype;
+          window.WebSocket.CONNECTING = 0;
+          window.WebSocket.OPEN = 1;
+          window.WebSocket.CLOSING = 2;
+          window.WebSocket.CLOSED = 3;
+        }
+      })();
+    </script>
+    <title>قطرة AI - منصة طلاب مياه الشرب والصرف الصحي</title>
+    <meta name="description" content="منصة تعليمية تفاعلية ومستقلة لطلاب مدرسة مياه الشرب والصرف الصحي بأسيوط، تضم المدرس الذكي والكورة التفاعلية Google Live وبنوك الأسئلة والمكتبة التشاركية." />
+    <meta property="og:title" content="قطرة AI - منصة طلاب مياه الشرب والصرف الصحي" />
+    <meta property="og:description" content="منصة تعليمية تفاعلية ومستقلة لطلاب مدرسة مياه الشرب والصرف الصحي بأسيوط، تضم المدرس الذكي والكورة التفاعلية Google Live وبنوك الأسئلة والمكتبة التشاركية." />
+    <meta property="og:type" content="website" />
+    <meta name="theme-color" content="#0369a1" />
+    <meta name="mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+    <meta name="apple-mobile-web-app-title" content="قطرة AI" />
+    <meta name="application-name" content="قطرة AI" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+    <link rel="manifest" href="/manifest.webmanifest" />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;600;700;800;900&family=Tajawal:wght@400;500;700;800&display=swap" rel="stylesheet">
+  </head>
+  <body class="bg-slate-950 text-slate-100 font-sans antialiased selection:bg-cyan-500 selection:text-white min-h-screen">
+    <div id="root"></div>
+    <script type="module" src="/src/main.tsx"></script>
+  </body>
+</html>
+

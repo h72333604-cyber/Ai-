@@ -1,0 +1,64 @@
+{
+  "id": "/",
+  "name": "قطرة AI - مدرسة مياه الشرب والصرف الصحي بأسيوط",
+  "short_name": "قطرة AI",
+  "description": "المنظومة التعليمية الذكية الشاملة لطلاب المدرسة الثانوية الفنية لمياه الشرب والصرف الصحي بأسيوط - كورة ذكية ومساعد صوتي وبنك أسئلة واختبارات معملية",
+  "start_url": "/",
+  "scope": "/",
+  "display": "standalone",
+  "orientation": "portrait-primary",
+  "theme_color": "#0369a1",
+  "background_color": "#020617",
+  "lang": "ar",
+  "dir": "rtl",
+  "categories": ["education", "utilities", "productivity"],
+  "icons": [
+    {
+      "src": "/pwa-192x192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/pwa-512x512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/pwa-maskable-512x512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "maskable"
+    }
+  ],
+  "shortcuts": [
+    {
+      "name": "الكورة الذكية الصوتية",
+      "short_name": "الكورة الذكية",
+      "description": "محادثة صوتية فورية مع المساعد الذكي",
+      "url": "/?open=orb",
+      "icons": [{ "src": "/pwa-192x192.png", "sizes": "192x192" }]
+    },
+    {
+      "name": "بنك الأسئلة والتدريب",
+      "short_name": "بنك الأسئلة",
+      "description": "تدريب تفاعلي وحساب درجات ذكي",
+      "url": "/?tab=quiz",
+      "icons": [{ "src": "/pwa-192x192.png", "sizes": "192x192" }]
+    },
+    {
+      "name": "لوحة الإحصائيات وبنك الأخطاء",
+      "short_name": "الإحصائيات",
+      "description": "متابعة التقدم الدراسي ومراجعة الأخطاء",
+      "url": "/?tab=statistics",
+      "icons": [{ "src": "/pwa-192x192.png", "sizes": "192x192" }]
+    }
+  ],
+  "related_applications": [
+    {
+      "platform": "play",
+      "id": "com.qatrah.asyut.water"
+    }
+  ]
+}

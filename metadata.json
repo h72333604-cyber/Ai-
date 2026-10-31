@@ -1,0 +1,11 @@
+{
+  "name": "Remix قطرة AI - منصة طلاب مياه الشرب والصرف الصحي",
+  "description": "منصة تعليمية تفاعلية ومستقلة لطلاب مدرسة مياه الشرب والصرف الصحي بأسيوط، تضم المدرس الذكي والكورة التفاعلية Google Live وبنوك الأسئلة والمكتبة التشاركية.",
+  "requestFramePermissions": [
+    "microphone",
+    "display-capture"
+  ],
+  "majorCapabilities": [
+    "MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"
+  ]
+}
